@@ -1,0 +1,40 @@
+<div class="d-flex justify-content-between align-items-center room-name">
+  <span class="text-white">{{room?.name}}</span>
+  <button mat-icon-button (click)="onBack()">
+    <mat-icon class="text-white">arrow_back</mat-icon>
+  </button>
+</div>
+<section
+  class="bg-opacity-25 bg-light rounded-2 message-area-height p-2 d-flex flex-column gap-2 justify-content-between">
+
+  <div class="flex flex-row gap-4 overflow-auto">
+    <div *ngFor="let userItem of room?.users " class="flex flex-col items-center justify-center text-white">
+      <div class="relative">
+        <div class="w-3 h-3 bg-green-500 absolute bottom-0 right-1 rounded-3xl"></div>
+      </div>
+
+      <span class="w-20">{{userItem.firstName}}{{userItem.lastName}}</span>
+    </div>
+  </div>
+
+  <div class="bg-opacity-25 p-2 d-flex flex-column gap-2 overflow-auto" style="flex: 1" id="messages">
+    <div *ngFor="let message of messages" class="d-flex"
+         [ngClass]="message.user?.id === user?.id ? 'justify-content-end' : 'justify-content-start'">
+      <span class="message-box">
+        {{message.content}}
+        <div class="d-flex justify-content-between gap-3 align-items-center">
+          <span>{{message.user?.firstName}} {{message.user?.lastName}}</span>
+          <span>{{message.creationDate | date: 'yyyy.MM.dd. hh:mm:ss'}}</span>
+        </div>
+
+      </span>
+
+    </div>
+  </div>
+
+  <div class="d-flex gap-1 justify-content-between align-items-center">
+    <input #inputValue class="p-2 rounded-2" style="flex: 1" placeholder="Üzenet...">
+    <button mat-raised-button color="primary" [disabled]="inputValue.value.length === 0" (click)="addMessage(inputValue.value)">Küldés</button>
+  </div>
+
+</section>

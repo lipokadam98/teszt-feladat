@@ -1,0 +1,13 @@
+.user-section{
+  background-color: #b588c7a6;
+  max-height: 500px;
+  position: sticky;
+  top: 60px;
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1000px) {
+  .user-section {
+    display: none;
+  }
+}

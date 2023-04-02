@@ -1,0 +1,25 @@
+.message-box {
+  max-width: 200px;
+  padding: 5px;
+  background-color: white;
+  word-wrap: break-word;
+  font-size: 13px;
+  border-radius: 5px;
+  box-shadow: 0 0 2px deepskyblue;
+}
+
+
+.message-area-height {
+  height: calc(100vh - 130px)
+}
+
+.room-name{
+  background-color: #cab3e99e;
+  margin-bottom: 10px;
+  padding: 2px;
+  border-radius: 5px;
+
+  span{
+    font-size: 20px;
+  }
+}

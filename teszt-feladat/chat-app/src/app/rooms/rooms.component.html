@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-between align-items-center add-room">
+  <h2 class="text-white p-1 g-5 mb-0">Csevegő szobák</h2>
+  <div class="d-flex justify-content-between align-items-center">
+    <input matInput class="room-name-input" type="text" #roomName placeholder="Szoba neve">
+    <button mat-icon-button [matTooltip]="'Szoba hozzáadása'" [disabled]="roomName.value.length === 0" (click)="createRoom(roomName.value);roomName.value = ''">
+      <mat-icon color="primary">add</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div *ngFor="let room of rooms" class="card mt-3 p-1">
+  <div>
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="d-block">
+        <span class="fw-bold mb-0">Szoba neve: </span>
+        {{room.name}}
+      </div>
+
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button mat-icon-button color="primary" matTooltip="Belépés a szobába" [routerLink]="['room',room.id]">
+          <mat-icon>login</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="card-footer">
+      <span><b>Létrehozás dátuma: </b> {{room.creationDate | date: 'yyyy.MM.dd. hh:mm:ss'}}</span>
+
+    </div>
+  </div>
+</div>
+
+
+

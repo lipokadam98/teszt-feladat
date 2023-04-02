@@ -1,0 +1,34 @@
+<section class="auth-section">
+  <form style="min-width: 300px" (ngSubmit)="authenticate()" [formGroup]="authFormGroup">
+    <h3 class="text-center" style="font-size: 25px">Chat App</h3>
+    <mat-form-field appearance="fill">
+      <mat-label>E-mail</mat-label>
+      <input type="email" matInput autofocus formControlName="email" placeholder="E-mail">
+      <mat-error *ngIf="authFormGroup.get('email')?.touched && authFormGroup.get('email')?.invalid">{{emailValidation()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="!isLogin">
+      <mat-label>Firstname</mat-label>
+      <input type="text" matInput  formControlName="firstname" placeholder="Firstname">
+      <mat-error *ngIf="authFormGroup.get('firstname')?.touched && authFormGroup.get('firstname')?.invalid">Firstname must be provided</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="!isLogin">
+      <mat-label>Lastname</mat-label>
+      <input type="text" matInput  formControlName="lastname" placeholder="Lastname">
+      <mat-error *ngIf="authFormGroup.get('lastname')?.touched && authFormGroup.get('lastname')?.invalid">Lastname must be provided</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input type="password" matInput  formControlName="password" placeholder="Password">
+      <mat-error *ngIf="authFormGroup.get('password')?.touched && authFormGroup.get('password')?.invalid">{{passwordValidation()}}</mat-error>
+    </mat-form-field>
+
+    <button [disabled]="checkDisabled()" mat-raised-button>{{isLogin ? 'Login' : 'Sign Up'}}</button>
+    <button type="button" class="bg-info" mat-raised-button (click)="switchMode()">{{!isLogin ? 'Login' : 'Sign Up'}}</button>
+  </form>
+  <hr>
+
+
+</section>
