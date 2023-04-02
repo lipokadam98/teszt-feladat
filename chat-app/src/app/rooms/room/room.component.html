@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-between align-items-center room-name">
-  <span class="text-white">{{room?.name}}</span>
+<div class="d-flex justify-content-between align-items-center room-name-div">
+  <span class="room-name ps-2">{{room?.name}}</span>
   <button mat-icon-button (click)="onBack()">
     <mat-icon class="text-white">arrow_back</mat-icon>
   </button>
@@ -24,17 +24,15 @@
         {{message.content}}
         <div class="d-flex justify-content-between gap-3 align-items-center">
           <span>{{message.user?.firstName}} {{message.user?.lastName}}</span>
-          <span>{{message.creationDate | date: 'yyyy.MM.dd. hh:mm:ss'}}</span>
+          <span>{{message.creationDate | date: 'yyyy.MM.dd. HH:mm:ss'}}</span>
         </div>
-
       </span>
-
     </div>
   </div>
 
   <div class="d-flex gap-1 justify-content-between align-items-center">
-    <input #inputValue class="p-2 rounded-2" style="flex: 1" placeholder="Üzenet...">
-    <button mat-raised-button color="primary" [disabled]="inputValue.value.length === 0" (click)="addMessage(inputValue.value)">Küldés</button>
+    <input #inputValue class="p-2 rounded-2" (keyup.enter)="addMessage(inputValue.value)"  style="flex: 1" placeholder="Üzenet...">
+    <button mat-raised-button color="primary" type="button" (click)="addMessage(inputValue.value)">Küldés</button>
   </div>
 
 </section>

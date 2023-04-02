@@ -31,8 +31,4 @@ public class User {
     public User() {
 
     }
-
-    public void addChatRoom(ChatRoom chatRoom){
-        chatRooms.add(chatRoom);
-    }
 }

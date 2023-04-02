@@ -22,10 +22,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authFormGroup = new FormGroup({
-      'email': new FormControl('lipokadam98@gmail.com',[Validators.required,Validators.email]),
-      'firstname': new FormControl(null,[Validators.required]),
-      'lastname': new FormControl(null,[Validators.required]),
-      'password': new FormControl('12345678',[Validators.required,Validators.minLength(6)])
+      'email': new FormControl('lipokadam98@gmail.com',[Validators.required,Validators.email,Validators.maxLength(255)]),
+      'firstname': new FormControl(null,[Validators.required,Validators.maxLength(255)]),
+      'lastname': new FormControl(null,[Validators.required,Validators.maxLength(255)]),
+      'password': new FormControl('12345678',[Validators.required,Validators.minLength(6),Validators.maxLength(60)])
     });
 
     this.store.select(selectAuthUser).subscribe(user=>{
@@ -76,8 +76,8 @@ export class AuthComponent implements OnInit, OnDestroy {
         return false;
       }
     }else{
-      if(!this.authFormGroup.get('username')?.invalid &&
-        !this.authFormGroup.get('password')?.invalid &&
+      if(!this.authFormGroup.get('firstname')?.invalid &&
+        !this.authFormGroup.get('lastname')?.invalid &&
         !this.authFormGroup.get('email')?.invalid){
         return false;
       }
@@ -92,18 +92,18 @@ export class AuthComponent implements OnInit, OnDestroy {
   emailValidation(){
 
     if (this.authFormGroup.get('email')?.hasError('required')) {
-      return 'You must provide an e-mail address';
+      return 'E-mail megadása kötelező';
     }
 
-    return this.authFormGroup.get('email')?.hasError('email') ? 'E-mail format is not correct' : '';
+    return this.authFormGroup.get('email')?.hasError('email') ? 'Hibás e-mail formátum' : '';
   }
 
   passwordValidation(){
     if (this.authFormGroup.get('password')?.hasError('required')) {
-      return 'You must provide a password';
+      return 'Jelszó megadása kötelező';
     }
 
-    return this.authFormGroup.get('password')?.hasError('minlength') ? 'The password must be at least 6 characters' : '';
+    return this.authFormGroup.get('password')?.hasError('minlength') ? 'A jelszó hossza legalább 6 karakter legyen' : '';
   }
 
 }

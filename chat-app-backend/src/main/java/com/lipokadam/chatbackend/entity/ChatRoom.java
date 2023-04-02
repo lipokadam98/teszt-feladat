@@ -20,6 +20,7 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToMany
@@ -33,7 +34,4 @@ public class ChatRoom {
     }
 
     private LocalDateTime creationDate;
-
-
-    // constructor, getters, and setters
 }

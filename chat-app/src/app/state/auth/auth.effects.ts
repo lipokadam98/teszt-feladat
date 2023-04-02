@@ -40,7 +40,7 @@ export class AuthEffects{
           return storeUser({user: user})
         }),
         catchError((error)=> {
-          return of(authFailure({error}));
+          return of(authFailure({error: error?.error?.message}))
         })
       ))
     )
@@ -68,11 +68,11 @@ export class AuthEffects{
               }
               return storeUser({user: user})
             }
-            return authFailure({error: 'Hibás bejelentkezés'})
+            return authFailure({error: 'Hiba történt a bejelentkezés során'})
 
           }),
           catchError((error)=> {
-            return of(authFailure({error}));
+            return of(authFailure({error: error?.error?.message}));
           })
         )
       )

@@ -12,5 +12,12 @@ body {
   "Helvetica Neue",
   sans-serif;
   background-image: url("assets/compute-ea4c57a4.png");
+  overflow-x: hidden;
 }
 
+.room-name{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}

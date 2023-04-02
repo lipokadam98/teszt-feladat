@@ -8,7 +8,7 @@ import {RoomComponent} from "./rooms/room/room.component";
 const routes: Routes = [
   {path: '', canActivate: [AuthGuardServiceGuard],component: HomeComponent},
   {path: 'room/:id',canActivate: [AuthGuardServiceGuard],  component: RoomComponent},
-  {path: 'login',component: AuthComponent}
+  {path: 'login',component: AuthComponent},
 ];
 
 @NgModule({

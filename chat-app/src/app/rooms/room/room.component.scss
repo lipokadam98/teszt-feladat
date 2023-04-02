@@ -1,5 +1,5 @@
 .message-box {
-  max-width: 200px;
+  max-width: 300px;
   padding: 5px;
   background-color: white;
   word-wrap: break-word;
@@ -13,13 +13,14 @@
   height: calc(100vh - 130px)
 }
 
-.room-name{
+.room-name-div{
   background-color: #cab3e99e;
   margin-bottom: 10px;
   padding: 2px;
   border-radius: 5px;
 
   span{
-    font-size: 20px;
+    font-size: 17px;
+    color: white;
   }
 }

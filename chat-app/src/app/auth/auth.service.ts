@@ -22,10 +22,6 @@ export class AuthService {
   logout(){
     sessionStorage.removeItem('userId');
     this.router.navigate(['login']).then();
-    /*if(this.tokenExpirationTimer){
-      clearTimeout(this.tokenExpirationTimer);
-    }
-    this.tokenExpirationTimer = null;*/
     return Promise.resolve();
   }
 

@@ -3,6 +3,7 @@ package com.lipokadam.chatbackend.service;
 import com.lipokadam.chatbackend.entity.PasswordResetToken;
 import com.lipokadam.chatbackend.entity.User;
 import com.lipokadam.chatbackend.entity.VerificationToken;
+import com.lipokadam.chatbackend.exception.ChatException;
 import com.lipokadam.chatbackend.model.UserModel;
 import com.lipokadam.chatbackend.repository.PasswordResetTokenRepository;
 import com.lipokadam.chatbackend.repository.UserRepository;
@@ -35,6 +36,10 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public User registerUser(UserModel userModel) {
+
+        if(userRepository.findUserByEmail(userModel.getEmail()) != null){
+            throw new ChatException("Ez az email cím már foglalt!",500);
+        }
         User user = new User();
         user.setEmail(userModel.getEmail());
         user.setFirstName(userModel.getFirstName());

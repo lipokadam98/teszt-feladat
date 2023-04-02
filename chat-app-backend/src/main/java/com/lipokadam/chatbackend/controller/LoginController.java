@@ -1,5 +1,6 @@
 package com.lipokadam.chatbackend.controller;
 
+import com.lipokadam.chatbackend.exception.ChatException;
 import com.lipokadam.chatbackend.model.UserLoginDto;
 import com.lipokadam.chatbackend.model.UserLoginResponseDto;
 import com.lipokadam.chatbackend.service.UserService;
@@ -27,11 +28,15 @@ public class LoginController {
     @PostMapping("/login")
     public UserLoginResponseDto login(@RequestBody UserLoginDto userLoginDto) {
         var user = userService.findUserByEmail(userLoginDto.getEmail());
+
+        if(user == null){
+            return new UserLoginResponseDto(null,false,null);
+        }
         if (passwordEncoder.matches(userLoginDto.getPassword(),user.getPassword())){
             return new UserLoginResponseDto(user.getId(),true,LocalDateTime.now().plusHours(3));
+        }else{
+            throw new ChatException("A jelszó nem megfelelő",500);
         }
-
-        return new UserLoginResponseDto(null,false,null);
     }
 
 }

@@ -8,27 +8,25 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" *ngIf="!isLogin">
-      <mat-label>Firstname</mat-label>
+      <mat-label>Vezetéknév</mat-label>
       <input type="text" matInput  formControlName="firstname" placeholder="Firstname">
-      <mat-error *ngIf="authFormGroup.get('firstname')?.touched && authFormGroup.get('firstname')?.invalid">Firstname must be provided</mat-error>
+      <mat-error *ngIf="authFormGroup.get('firstname')?.touched && authFormGroup.get('firstname')?.invalid">Vezetéknév megadása kötelező</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" *ngIf="!isLogin">
-      <mat-label>Lastname</mat-label>
+      <mat-label>Keresztnév</mat-label>
       <input type="text" matInput  formControlName="lastname" placeholder="Lastname">
-      <mat-error *ngIf="authFormGroup.get('lastname')?.touched && authFormGroup.get('lastname')?.invalid">Lastname must be provided</mat-error>
+      <mat-error *ngIf="authFormGroup.get('lastname')?.touched && authFormGroup.get('lastname')?.invalid">Keresztnév megadása kötelező</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-      <mat-label>Password</mat-label>
-      <input type="password" matInput  formControlName="password" placeholder="Password">
+      <mat-label>Jelszó</mat-label>
+      <input type="password" matInput  formControlName="password" placeholder="Jelszó">
       <mat-error *ngIf="authFormGroup.get('password')?.touched && authFormGroup.get('password')?.invalid">{{passwordValidation()}}</mat-error>
     </mat-form-field>
 
-    <button [disabled]="checkDisabled()" mat-raised-button>{{isLogin ? 'Login' : 'Sign Up'}}</button>
-    <button type="button" class="bg-info" mat-raised-button (click)="switchMode()">{{!isLogin ? 'Login' : 'Sign Up'}}</button>
+    <button [disabled]="checkDisabled()" mat-raised-button>{{isLogin ? 'Bejelentkezés' : 'Regisztráció'}}</button>
+    <button type="button" class="bg-info" mat-raised-button (click)="switchMode()">{{!isLogin ? 'Bejelentkezés' : 'Regisztráció'}}</button>
   </form>
   <hr>
-
-
 </section>

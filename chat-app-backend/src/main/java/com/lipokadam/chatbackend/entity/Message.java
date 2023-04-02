@@ -19,6 +19,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "content",length = -1)
     private String content;
 
     @ManyToOne
@@ -30,6 +31,4 @@ public class Message {
     private User user;
 
     private LocalDateTime creationDate;
-
-    // constructor, getters, and setters
 }

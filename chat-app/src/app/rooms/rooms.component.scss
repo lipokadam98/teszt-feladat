@@ -1,5 +1,5 @@
 .add-room{
-  background-color: #756969e3;
+  background-color: rgb(255 172 0 / 89%);
   padding: 10px;
   border-radius: 5px;
 }
@@ -9,4 +9,8 @@
   padding: 5px;
   border: none;
   border-radius: 5px;
+}
+mat-hint{
+  color: white;
+  font-size: 12px;
 }

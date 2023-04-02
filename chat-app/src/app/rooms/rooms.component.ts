@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ChatRoom, ChatRoomControllerService, ChatRoomUserDto} from "../../swagger-generated";
+import {ChatRoom, ChatRoomControllerService} from "../../swagger-generated";
 
 @Component({
   selector: 'app-rooms',
@@ -8,7 +8,6 @@ import {ChatRoom, ChatRoomControllerService, ChatRoomUserDto} from "../../swagge
 })
 export class RoomsComponent implements OnInit{
   rooms: ChatRoom[] = [];
-
   constructor(private chatRoomController: ChatRoomControllerService) {
   }
 
@@ -30,24 +29,6 @@ export class RoomsComponent implements OnInit{
     this.chatRoomController.createChatRoom(chatRoom).subscribe(data=>{
       this.rooms = [data, ...this.rooms];
     });
-  }
-
-  joinRoom(roomId: number | undefined){
-
-    if(roomId === undefined){
-      return;
-    }
-    let chatRoomUserDto: ChatRoomUserDto = {
-      userId: 1,
-      email: "lipokadam98@gmail.com"
-    }
-    this.chatRoomController.addUserToChatRoom(chatRoomUserDto,roomId!).subscribe(data=>{
-      console.log(data);
-    });
-  }
-
-  leaveRoom(){
-
   }
 
 }

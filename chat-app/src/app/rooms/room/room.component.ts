@@ -11,6 +11,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../state/app.state";
 import {selectAuthUser} from "../../state/auth/auth.selectors";
+import {WebSocketService} from "../../services/web-socket.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-room',
@@ -20,35 +22,56 @@ import {selectAuthUser} from "../../state/auth/auth.selectors";
 export class RoomComponent implements OnInit, OnDestroy{
   rooms: ChatRoom[] = [];
 
+  groupId = '';
   messages: Message[] = [];
   room: ChatRoom | undefined  = {};
   roomId = 0;
   user: User | null = null;
   intervalId: any;
+  socket: WebSocket | undefined;
+
+  paramsSub = new Subscription();
+  webSocketSub = new Subscription();
+
   constructor(private userService: UserControllerService,
               private chatRoomController: ChatRoomControllerService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
+              private webSocketService: WebSocketService,
               private store: Store<AppState>) {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(data=>{
+    this.paramsSub = this.activatedRoute.params.subscribe(data=>{
       this.roomId = +data['id'];
+      this.groupId = data['id'];
+
       this.selectChatRoom(this.roomId);
       this.getMessages(this.roomId);
+
     });
+
+    this.webSocketService.joinGroup(this.groupId);
+
+   this.webSocketSub = this.webSocketService.onMessage().pipe()
+      .subscribe(message => {
+        let webSocketData = JSON.parse(JSON.stringify(message));
+
+        if(webSocketData?.data?.groupId === this.groupId ){
+          this.messages.push(JSON.parse(webSocketData?.data?.message));
+          setTimeout(()=>{this.scrollToBottom()},50);
+        }
+      });
 
     this.store.select(selectAuthUser).subscribe(user=>{
       this.user = user;
     });
-
-    this.intervalId = setInterval(()=>this.getMessages(this.roomId), 1000);
-
-
   }
 
   ngOnDestroy() {
+    this.webSocketSub.unsubscribe();
+    this.webSocketService.leaveGroup(this.groupId);
+    this.paramsSub.unsubscribe();
     clearInterval(this.intervalId);
   }
 
@@ -57,9 +80,7 @@ export class RoomComponent implements OnInit, OnDestroy{
       this.rooms = rooms;
        this.rooms.forEach(room=>{
         if(room.id === +id){
-
           this.room = room;
-          console.log(this.room);
         }
       })
 
@@ -69,7 +90,7 @@ export class RoomComponent implements OnInit, OnDestroy{
   getMessages(id: number){
     this.chatRoomController.getMessages(+id).subscribe(messages=>{
       this.messages = messages;
-      this.scrollToBottom();
+      setTimeout(()=>{this.scrollToBottom()},50);
     });
   }
 
@@ -79,10 +100,11 @@ export class RoomComponent implements OnInit, OnDestroy{
       userId: this.user?.id!
     }
     this.chatRoomController.sendMessage(messageDto,this.roomId).subscribe(data=>{
-      this.getMessages(this.roomId);
-    });
+      this.webSocketService.sendMessage(this.groupId,JSON.stringify(data));
+      this.messages.push(data);
+      setTimeout(()=>{this.scrollToBottom()},50);
 
-
+    })
   }
 
   scrollToBottom(){
@@ -94,6 +116,6 @@ export class RoomComponent implements OnInit, OnDestroy{
   }
 
   onBack(){
-    this.router.navigate(['']);
+    this.router.navigate(['']).then();
   }
 }
