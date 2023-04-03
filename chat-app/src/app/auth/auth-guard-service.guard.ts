@@ -17,8 +17,6 @@ export class AuthGuardServiceGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.store.select(selectAuthUser).pipe(take(1),map(user=>{
-
-      console.log(user);
       const isAuth =  !!user;
       if(isAuth){
         return true;

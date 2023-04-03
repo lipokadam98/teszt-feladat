@@ -76,14 +76,8 @@ export class RoomComponent implements OnInit, OnDestroy{
   }
 
   selectChatRoom(id: number){
-    this.chatRoomController.getAllChatRoom().subscribe(rooms=>{
-      this.rooms = rooms;
-       this.rooms.forEach(room=>{
-        if(room.id === +id){
-          this.room = room;
-        }
-      })
-
+    this.chatRoomController.getChatRoomById(id).subscribe(room=>{
+      this.room = room;
     });
   }
 

@@ -26,7 +26,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
-@Injectable({providedIn: "root"})
+@Injectable({providedIn: 'root'})
 export class ChatRoomControllerService {
 
     protected basePath = 'http://localhost:8080';
@@ -185,6 +185,53 @@ export class ChatRoomControllerService {
 
         return this.httpClient.request<Array<ChatRoom>>('get',`${this.basePath}/chatroom/getall`,
             {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     *
+     *
+     * @param id
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getChatRoomById(id: number, observe?: 'body', reportProgress?: boolean): Observable<ChatRoom>;
+    public getChatRoomById(id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<ChatRoom>>;
+    public getChatRoomById(id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<ChatRoom>>;
+    public getChatRoomById(id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling getChatRoomById.');
+        }
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (id !== undefined && id !== null) {
+            queryParameters = queryParameters.set('id', <any>id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            '*/*'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<ChatRoom>('get',`${this.basePath}/chatroom/getbyid`,
+            {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

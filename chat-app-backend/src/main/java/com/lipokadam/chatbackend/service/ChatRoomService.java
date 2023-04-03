@@ -20,6 +20,9 @@ public class ChatRoomService {
     public ChatRoom save(ChatRoom chatRoom) {
         return chatRoomRepository.save(chatRoom);
     }
+    public Optional<ChatRoom> getRoomById(Long id) {
+        return chatRoomRepository.findById(id);
+    }
 
     public Optional<ChatRoom> findById(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId);

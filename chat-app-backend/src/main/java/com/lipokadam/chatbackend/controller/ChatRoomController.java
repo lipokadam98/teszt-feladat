@@ -2,6 +2,7 @@ package com.lipokadam.chatbackend.controller;
 
 import com.lipokadam.chatbackend.entity.ChatRoom;
 import com.lipokadam.chatbackend.entity.Message;
+import com.lipokadam.chatbackend.exception.ChatException;
 import com.lipokadam.chatbackend.model.ChatRoomUserDto;
 import com.lipokadam.chatbackend.model.MessageDto;
 import com.lipokadam.chatbackend.service.ChatRoomService;
@@ -32,6 +33,17 @@ public class ChatRoomController {
     @GetMapping("/getall")
     public List<ChatRoom> getAllChatRoom(){
         return chatRoomService.findAll();
+    }
+
+    @GetMapping("/getbyid")
+    public ChatRoom getChatRoomById(@RequestParam Long id){
+        var room = chatRoomService.getRoomById(id);
+
+        if(room.isEmpty()){
+            throw new ChatException("A szoba nem található",500);
+        }
+
+        return room.get();
     }
 
 

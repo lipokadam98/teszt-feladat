@@ -17,7 +17,6 @@ export class RoomsComponent implements OnInit{
 
   getRooms(){
     this.chatRoomController.getAllChatRoom().subscribe(rooms=>{
-      console.log(rooms);
       this.rooms = rooms;
     });
   }
