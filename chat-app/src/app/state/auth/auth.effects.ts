@@ -95,7 +95,6 @@ export class AuthEffects{
             if(Object.keys(token).length === 0 && token.constructor === Object){
               return storeUser({user: null})
             } else{
-              console.log(token);
               let user: User = {
                 id: token
               }

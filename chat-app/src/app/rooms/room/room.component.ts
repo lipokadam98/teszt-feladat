@@ -20,16 +20,12 @@ import {Subscription} from "rxjs";
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit, OnDestroy{
-  rooms: ChatRoom[] = [];
-
   groupId = '';
   messages: Message[] = [];
   room: ChatRoom | undefined  = {};
   roomId = 0;
   user: User | null = null;
   intervalId: any;
-  socket: WebSocket | undefined;
-
   paramsSub = new Subscription();
   webSocketSub = new Subscription();
 
