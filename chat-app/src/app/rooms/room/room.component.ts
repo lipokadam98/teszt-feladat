@@ -13,6 +13,7 @@ import {AppState} from "../../state/app.state";
 import {selectAuthUser} from "../../state/auth/auth.selectors";
 import {WebSocketService} from "../../services/web-socket.service";
 import {Subscription} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-room',
@@ -33,6 +34,7 @@ export class RoomComponent implements OnInit, OnDestroy{
               private chatRoomController: ChatRoomControllerService,
               private activatedRoute: ActivatedRoute,
               private router: Router,
+              private snackBar: MatSnackBar,
               private webSocketService: WebSocketService,
               private store: Store<AppState>) {
   }
@@ -78,10 +80,18 @@ export class RoomComponent implements OnInit, OnDestroy{
   }
 
   getMessages(id: number){
-    this.chatRoomController.getMessages(+id).subscribe(messages=>{
-      this.messages = messages;
-      setTimeout(()=>{this.scrollToBottom()},50);
+    this.chatRoomController.getMessages(+id).subscribe({
+      next: this.handleMessagesLoad.bind(this),
+      error: this.handleMessagesLoadError.bind(this)
     });
+  }
+
+  handleMessagesLoad(messages: Message[]){
+    this.messages = messages;
+    setTimeout(()=>{this.scrollToBottom()},50);
+  }
+  handleMessagesLoadError(_error: string){
+    this.snackBar.open("Hiba történt az üzenetek betöltése során!","OK!",{duration: 5000});
   }
 
   addMessage(value: string) {
@@ -89,12 +99,20 @@ export class RoomComponent implements OnInit, OnDestroy{
       message: value,
       userId: this.user?.id!
     }
-    this.chatRoomController.sendMessage(messageDto,this.roomId).subscribe(data=>{
-      this.webSocketService.sendMessage(this.groupId,JSON.stringify(data));
-      this.messages.push(data);
-      setTimeout(()=>{this.scrollToBottom()},50);
+    this.chatRoomController.sendMessage(messageDto,this.roomId).subscribe({
+      next: this.sendMessage.bind(this),
+      error: this.sendMessageError.bind(this)
+    });
+  }
 
-    })
+  sendMessage(message: Message){
+    this.webSocketService.sendMessage(this.groupId,JSON.stringify(message));
+    this.messages.push(message);
+    setTimeout(()=>{this.scrollToBottom()},50);
+  }
+
+  sendMessageError(_error: string){
+    this.snackBar.open("Hiba történt az üzenet küldése során!","OK!",{duration: 5000});
   }
 
   scrollToBottom(){

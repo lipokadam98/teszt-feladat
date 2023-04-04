@@ -23,6 +23,7 @@ import {RoomComponent} from './rooms/room/room.component';
 import {UsersComponent} from './users/users.component';
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import {WebSocketService} from "./services/web-socket.service";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const config: SocketIoConfig = { url: 'ws://localhost:8080/chat', options: {} };
 
@@ -46,6 +47,7 @@ const config: SocketIoConfig = { url: 'ws://localhost:8080/chat', options: {} };
     MatIconModule,
     HttpClientModule,
     MatButtonModule,
+    MatSnackBarModule,
     MatTooltipModule,
     StoreModule.forRoot({user: authReducer}),
     EffectsModule.forRoot([AuthEffects]),
